@@ -1,24 +1,12 @@
-const API_BASE = 'http://localhost:3000/api/v1';
+import { customFetch } from './customFetch';
 
 export const fetchMatches = async () => {
-  const response = await fetch(`${API_BASE}/matches`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${localStorage.getItem('authToken')}`
-    },
-  });
-  return response.json();
+  return customFetch('/matches');
 };
 
 export const createMatch = async (match) => {
-  const response = await fetch(`${API_BASE}/matches`, {
+  return customFetch('/matches', {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${localStorage.getItem('authToken')}`
-    },
-    body: JSON.stringify({ match })
+    body: JSON.stringify({ match }),
   });
-  return response.json();
 };
