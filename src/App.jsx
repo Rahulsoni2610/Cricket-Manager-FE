@@ -7,7 +7,7 @@ import Dashboard from './pages/Dashboard';
 import Teams from './pages/Teams';
 import TeamDetailsPage from './pages/TeamDetailsPage';
 import Players from './pages/Players';
-import Tournaments from './pages/Tournaments';
+import TournamentPage from './pages/Tournament/TournamentPage';
 import Matches from './pages/Matches';
 import ProtectedRoute from './components/ProtectedRoute';
 import AnalyticsPage from './pages/Analytics';
@@ -29,7 +29,7 @@ function App() {
               <Route path="/teams" element={<Teams />} />
               <Route path="/teams/:id" element={<TeamDetailsPage />} />
               <Route path="/players" element={<Players />} />
-              <Route path="/tournaments" element={<Tournaments />} />
+              <Route path="/tournaments" element={<TournamentPage />} />
               <Route path="/matches" element={<Matches />} />
               <Route path="/analytics" element={<AnalyticsPage />} />
             </Route>
