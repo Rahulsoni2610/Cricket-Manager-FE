@@ -27,8 +27,8 @@ export default function DashboardLayout() {
 
   const navItems = [
     { name: 'Dashboard', href: '/dashboard', icon: <HomeModernIcon className="h-5 w-5" /> },
-    { name: 'Teams', href: '/teams', icon: <UserGroupIcon className="h-5 w-5" /> },
     { name: 'Players', href: '/players', icon: <UserIcon className="h-5 w-5" /> },
+    { name: 'Teams', href: '/teams', icon: <UserGroupIcon className="h-5 w-5" /> },
     { name: 'Matches', href: '/matches', icon: <CalendarDaysIcon className="h-5 w-5" /> },
     { name: 'Tournaments', href: '/tournaments', icon: <TrophyIcon className="h-5 w-5" /> },
     { name: 'Analytics', href: '/analytics', icon: <ChartBarIcon className="h-5 w-5" /> },
