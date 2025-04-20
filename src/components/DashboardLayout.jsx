@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Link, Outlet, useNavigate } from 'react-router-dom';
+import { Link, Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { formatLabel } from '../utils/format';
 import {
   Bars3Icon,
   XMarkIcon,
@@ -18,7 +19,8 @@ export default function DashboardLayout() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [activeItem, setActiveItem] = useState('Dashboard');
+  const location = useLocation();
+  const [activeItem, setActiveItem] = useState(formatLabel(location.pathname.split('/')[1] || 'Dashboard'));
 
   const handleLogout = async () => {
     await logout();

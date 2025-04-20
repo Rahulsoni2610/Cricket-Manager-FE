@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { PlusIcon, MagnifyingGlassIcon } from '@heroicons/react/24/outline';
-import MatchCard from '../components/MatchCard';
-import { fetchMatches } from '../services/matchService';
+import MatchCard from './MatchCard';
+import { fetchMatches } from '../../services/matchService';
 
 const Matches = () => {
   const [matches, setMatches] = useState([]);

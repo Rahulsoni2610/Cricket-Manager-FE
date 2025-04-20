@@ -46,10 +46,10 @@
 
 
 import { useState, useEffect } from 'react';
-import TeamSelector from '../components/TeamSelector';
-import TeamStats from '../components/TeamStats';
-import PerformanceChart from '../components/PerformanceChart';
-import { fetchTeams, fetchTeamStats } from '../services/analytics';
+import TeamSelector from '../../components/TeamSelector';
+import TeamStats from '../../components/TeamStats';
+import PerformanceChart from '../../components/PerformanceChart';
+import { fetchTeams, fetchTeamStats } from '../../services/analytics';
 
 export default function Analytics() {
   const [teams, setTeams] = useState([]);

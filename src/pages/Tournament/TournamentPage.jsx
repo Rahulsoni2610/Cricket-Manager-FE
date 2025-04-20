@@ -341,7 +341,7 @@ const TournamentPage = () => {
 
       {/* Create/Edit Modal */}
       {isModalOpen && (
-        <TournamentForm formData={formData} handleInputChange={handleInputChange} handleSubmit={handleSubmit} currentTournament={currentTournament} setIsModalOpen={setIsModalOpen} resetForm={resetForm}/>
+        <TournamentForm formData={formData} handleInputChange={handleInputChange} handleSubmit={handleSubmit} currentTournament={currentTournament} setIsModalOpen={setIsModalOpen} resetForm={resetForm} />
       )}
     </div>
   );

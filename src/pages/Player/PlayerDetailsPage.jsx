@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import { formatLabel } from '../../utils/format';
 import {
   ArrowLeftIcon,
   PencilIcon,
@@ -9,7 +10,7 @@ import {
   TrophyIcon,
   UsersIcon
 } from '@heroicons/react/24/outline';
-import { fetchPlayerDetails } from '../services/playerService';
+import { fetchPlayerDetails } from '../../services/playerService';
 
 const PlayerDetailsPage = () => {
   const { id } = useParams();
@@ -21,6 +22,7 @@ const PlayerDetailsPage = () => {
     const loadPlayer = async () => {
       try {
         const playerData = await fetchPlayerDetails(id);
+        // debugger
         setPlayer(playerData);
       } catch (err) {
         setError('Failed to load player data');
@@ -119,7 +121,7 @@ const PlayerDetailsPage = () => {
                 <h1 className="text-2xl font-bold text-gray-900">
                   {player.first_name} {player.last_name}
                 </h1>
-                <p className="mt-1 text-sm text-gray-500">{player.role ? player.role.replace('_', ' ') : 'Player'}</p>
+                <p className="mt-1 text-sm text-gray-500">{player.role ? formatLabel(player.role) : 'Player'}</p>
 
                 <div className="mt-4 space-y-2 text-sm text-gray-600">
                   <div className="flex items-center">
@@ -128,11 +130,11 @@ const PlayerDetailsPage = () => {
                   </div>
                   <div className="flex items-center">
                     <UserIcon className="h-4 w-4 text-gray-400 mr-2" />
-                    <span>Batting: {player.batting_style ? player.batting_style.replace('_', ' ') : 'N/A'}</span>
+                    <span>Batting: {player.batting_style ? formatLabel(player.batting_style) : 'N/A'}</span>
                   </div>
                   <div className="flex items-center">
                     <UserIcon className="h-4 w-4 text-gray-400 mr-2" />
-                    <span>Bowling: {player.bowling_style ? player.bowling_style.replace('_', ' ') : 'N/A'}</span>
+                    <span>Bowling: {player.bowling_style ? formatLabel(player.bowling_style) : 'N/A'}</span>
                   </div>
                 </div>
               </div>

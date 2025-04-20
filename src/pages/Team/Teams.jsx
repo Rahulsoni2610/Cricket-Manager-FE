@@ -261,7 +261,7 @@ import {
   createTeam,
   updateTeam,
   deleteTeam
-} from '../services/teamService';
+} from '../../services/teamService';
 
 const Teams = () => {
   const [teams, setTeams] = useState([]);
@@ -291,7 +291,7 @@ const Teams = () => {
     };
     loadTeams();
   }, []);
-  debugger
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
@@ -446,19 +446,26 @@ const Teams = () => {
                     </div>
                     <div className="flex items-center">
                       <UserIcon className="h-4 w-4 text-gray-400 mr-2" />
-                      <span>Captain: {team.captain || 'TBD'}</span>
+                      <span>Captain: {team.captain.first_name || 'TBD'}</span>
+                    </div>
+                    <div className="flex items-center mt-2">
+                      <CalendarIcon className="h-4 w-4 text-gray-400 mr-2" />
+                      <span>Tournaments: {team.tournaments_count || 0}</span>
                     </div>
                   </div>
 
-                  <div className="mt-5 pt-4 border-t border-gray-100">
+                  <div className="mt-5 pt-4 border-t border-gray-100 flex justify-between">
+                    <Link
+                      to={`/teams/${team.id}/squad`}
+                      className="text-sm font-medium text-indigo-600 hover:text-indigo-800"
+                    >
+                      Manage Squad
+                    </Link>
                     <Link
                       to={`/teams/${team.id}`}
-                      className="inline-flex items-center text-sm font-medium text-indigo-600 hover:text-indigo-800"
+                      className="text-sm font-medium text-indigo-600 hover:text-indigo-800"
                     >
-                      View full details
-                      <svg className="ml-1 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
-                      </svg>
+                      View Details
                     </Link>
                   </div>
                 </div>

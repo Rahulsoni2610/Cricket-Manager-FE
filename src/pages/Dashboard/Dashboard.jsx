@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import { useAuth } from '../context/AuthContext';
-import { fetchDashboardData } from '../services/dashboard';
-import LoadingSpinner from '../components/LoadingSpinner';
+import { useAuth } from '../../context/AuthContext';
+import { fetchDashboardData } from '../../services/dashboard';
+import LoadingSpinner from '../../components/LoadingSpinner';
 
 export default function Dashboard() {
   const { user } = useAuth();

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { fetchTeamDetails } from '../services/teamService';
+import { fetchTeamDetails } from '../../services/teamService';
 import { UserGroupIcon, CalendarIcon, MapPinIcon, UserIcon } from '@heroicons/react/24/outline';
+import PlayersCard from './PlayersCard';
 
 const TeamDetailsPage = () => {
   const { id } = useParams();
@@ -43,7 +44,7 @@ const TeamDetailsPage = () => {
                 </div>
                 <div className="flex items-center">
                   <UserIcon className="h-5 w-5 text-gray-500 mr-2" />
-                  <span>Captain: {team.captain}</span>
+                  <span>Captain: {team.captain.first_name}</span>
                 </div>
                 <div className="flex items-center">
                   <UserGroupIcon className="h-5 w-5 text-gray-500 mr-2" />
@@ -60,23 +61,7 @@ const TeamDetailsPage = () => {
           </div>
 
           {/* Team Players Section */}
-          <div className="mt-8">
-            <h2 className="text-xl font-semibold mb-4">Players</h2>
-            {team.players && team.players.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {team.players.map(player => (
-                  <div key={player.id} className="border rounded-lg p-4">
-                    <h3 className="font-medium">{player.name}</h3>
-                    <p className="text-sm text-gray-600">Role: {player.role}</p>
-                    <p className="text-sm text-gray-600">Batting Style: {player.batting_style}</p>
-                    <p className="text-sm text-gray-600">Bowling Style: {player.bowling_style}</p>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <p>No players found for this team.</p>
-            )}
-          </div>
+          <PlayersCard team={team} />
 
           {/* Team Matches Section */}
           <div className="mt-8">
