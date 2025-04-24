@@ -1,7 +1,7 @@
 import { customFetch } from './customFetch';
 
-export const fetchPlayers = async () => {
-  return customFetch('/players');
+export const fetchPlayers = async (searchTerm) => {
+  return customFetch(`/players?${searchTerm ? `search=${searchTerm}` : ''}`);
 };
 export const fetchPlayerDetails = async (id) => {
   return customFetch(`/players/${id}`);
