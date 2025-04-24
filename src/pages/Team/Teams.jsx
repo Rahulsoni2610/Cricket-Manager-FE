@@ -1,16 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import InputField from '../../components/InputField';
 import SelectField from '../../components/SelectField';
-import { ROLE_OPTIONS, BATTING_STYLES, BOWLING_STYLES } from '../../constants/team';
+import { fetchPlayers } from '../../services/playerService';
 import {
   PlusIcon,
-  PencilIcon,
-  TrashIcon,
-  UserGroupIcon,
-  CalendarIcon,
-  MapPinIcon,
-  UserIcon,
   MagnifyingGlassIcon,
   XMarkIcon
 } from '@heroicons/react/24/outline';
@@ -20,6 +13,7 @@ import {
   updateTeam,
   deleteTeam
 } from '../../services/teamService';
+import TeamCard from './TeamCard';
 
 const Teams = () => {
   const [teams, setTeams] = useState([]);
@@ -27,17 +21,18 @@ const Teams = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentTeam, setCurrentTeam] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
-  
+  const [players, setPlayers] = useState([]);
+
   const [formData, setFormData] = useState({
     name: '',
-    founded_year: '',
+    logo_url: '',
     home_ground: '',
-    captain: '',
-    coach: ''
+    captain_id: '',
+    vice_captain_id: ''
   });
 
   const closeModal = () => {
-    onClose();
+    setIsModalOpen(false)
     resetForm();
   };
 
@@ -54,6 +49,18 @@ const Teams = () => {
       }
     };
     loadTeams();
+  }, []);
+
+  useEffect(() => {
+    const loadPlayers = async () => {
+      try {
+        const data = await fetchPlayers();
+        setPlayers(data);
+      } catch (error) {
+        console.error("Failed to load players:", error);
+      }
+    };
+    loadPlayers();
   }, []);
 
   const handleInputChange = (e) => {
@@ -92,17 +99,16 @@ const Teams = () => {
   const resetForm = () => {
     setFormData({
       name: '',
-      founded_year: '',
+      logo_url: '',
       home_ground: '',
-      captain: '',
-      coach: ''
+      captain_id: '',
+      vice_captain_id: ''
     });
     setCurrentTeam(null);
   };
 
   const filteredTeams = teams.filter(team =>
-    team.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    team.captain.toLowerCase().includes(searchTerm.toLowerCase())
+    team.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   if (loading) return <div className="text-center text-gray-600 mt-10">Loading teams...</div>;
@@ -144,117 +150,7 @@ const Teams = () => {
       </div>
 
       {/* Team Cards */}
-      {filteredTeams.length > 0 ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {filteredTeams.map((team, index) => {
-            const colorClasses = [
-              'from-indigo-500 to-indigo-300',
-              'from-pink-500 to-pink-300',
-              'from-green-500 to-green-300',
-              'from-yellow-500 to-yellow-300',
-              'from-blue-500 to-blue-300',
-              'from-purple-500 to-purple-300',
-              'from-rose-500 to-rose-300',
-              'from-teal-500 to-teal-300'
-            ];
-            const bgGradient = colorClasses[index % colorClasses.length];
-
-            return (
-              <div
-                key={team.id}
-                className="bg-white rounded-2xl shadow-sm hover:shadow-lg transition transform hover:-translate-y-1 duration-300 border border-gray-200"
-              >
-                <div className={`h-2 bg-gradient-to-r ${bgGradient} rounded-t-2xl`} />
-                <div className="p-6">
-                  <div className="flex items-start justify-between">
-                    <div className="flex items-center">
-                      <div className="p-2 rounded-full bg-gray-100">
-                        <UserGroupIcon className="h-6 w-6 text-gray-600" />
-                      </div>
-                      <h2 className="ml-3 text-lg font-semibold text-gray-800">{team.name}</h2>
-                    </div>
-                    <div className="flex space-x-2">
-                      <button
-                        onClick={() => {
-                          setCurrentTeam(team);
-                          setFormData({
-                            name: team.name,
-                            founded_year: team.founded_year,
-                            home_ground: team.home_ground,
-                            captain: team.captain,
-                            coach: team.coach
-                          });
-                          setIsModalOpen(true);
-                        }}
-                        className="text-indigo-500 hover:text-indigo-700 transition-colors"
-                      >
-                        <PencilIcon className="h-4 w-4" />
-                      </button>
-                      <button
-                        onClick={() => handleDelete(team.id)}
-                        className="text-red-500 hover:text-red-700 transition-colors"
-                      >
-                        <TrashIcon className="h-4 w-4" />
-                      </button>
-                    </div>
-                  </div>
-
-                  <div className="mt-4 space-y-3 text-sm text-gray-600">
-                    <div className="flex items-center">
-                      <CalendarIcon className="h-4 w-4 text-gray-400 mr-2" />
-                      <span>Founded: {team.founded_year || 'N/A'}</span>
-                    </div>
-                    <div className="flex items-center">
-                      <MapPinIcon className="h-4 w-4 text-gray-400 mr-2" />
-                      <span>{team.home_ground || 'No home ground'}</span>
-                    </div>
-                    <div className="flex items-center">
-                      <UserIcon className="h-4 w-4 text-gray-400 mr-2" />
-                      <span>Captain: {team.captain.first_name || 'TBD'}</span>
-                    </div>
-                    <div className="flex items-center mt-2">
-                      <CalendarIcon className="h-4 w-4 text-gray-400 mr-2" />
-                      <span>Tournaments: {team.tournaments_count || 0}</span>
-                    </div>
-                  </div>
-
-                  <div className="mt-5 pt-4 border-t border-gray-100 flex justify-between">
-                    <Link
-                      to={`/teams/${team.id}/squad`}
-                      className="text-sm font-medium text-indigo-600 hover:text-indigo-800"
-                    >
-                      Manage Squad
-                    </Link>
-                    <Link
-                      to={`/teams/${team.id}`}
-                      className="text-sm font-medium text-indigo-600 hover:text-indigo-800"
-                    >
-                      View Details
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      ) : (
-        <div className="bg-white rounded-xl shadow-sm p-8 text-center">
-          <UserGroupIcon className="mx-auto h-12 w-12 text-gray-400" />
-          <h3 className="mt-2 text-lg font-medium text-gray-900">No teams found</h3>
-          <p className="mt-1 text-gray-500">
-            {searchTerm ? 'Try a different search term' : 'Get started by creating a new team'}
-          </p>
-          <div className="mt-6">
-            <button
-              onClick={() => setIsModalOpen(true)}
-              className="inline-flex items-center px-4 py-2 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-            >
-              <PlusIcon className="-ml-1 mr-2 h-5 w-5" />
-              New Team
-            </button>
-          </div>
-        </div>
-      )}
+      <TeamCard filteredTeams={filteredTeams} setCurrentTeam={setCurrentTeam} setIsModalOpen={setIsModalOpen} onEdit={setFormData} onDelete={handleDelete} setFormData={setFormData} />
 
       {/* Modal */}
       {isModalOpen && (
@@ -275,73 +171,58 @@ const Teams = () => {
             <h2 className="text-xl font-semibold text-gray-800 mb-4">
               {currentTeam ? 'Edit Team' : 'Create New Team'}
             </h2>
-            {/* <form onSubmit={handleSubmit} className="space-y-4">
-              {['name', 'logo_url', 'home_ground', 'captain', 'vice_captain'].map((field) => (
-                <input
-                  key={field}
-                  type="text"
-                  name={field}
-                  placeholder={field.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase())}
-                  value={formData[field]}
-                  onChange={handleInputChange}
-                  className="w-full px-4 py-2 border rounded-md text-sm focus:ring-2 focus:ring-indigo-500"
-                />
-              ))}
 
-              <div className="flex justify-end space-x-3 pt-2">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setIsModalOpen(false);
-                    resetForm();
-                  }}
-                  className="px-4 py-2 text-sm rounded-md border text-gray-700 hover:bg-gray-100"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="px-4 py-2 text-sm rounded-md bg-indigo-600 text-white hover:bg-indigo-700"
-                >
-                  {currentTeam ? 'Update' : 'Create'}
-                </button>
-              </div>
-            </form> */}
             <form onSubmit={handleSubmit} className="space-y-4">
               <InputField
                 label="Name"
                 name="name"
-                // value={formData.name}
+                value={formData.name}
                 onChange={handleInputChange}
+                placeholder="Enter team name"
                 required
               />
               <InputField
                 label="Team Logo"
                 name="logo_url"
-                // value={formData.last_name}
+                value={formData.logo_url}
                 onChange={handleInputChange}
+                placeholder="Enter logo URL"
               />
               <InputField
                 label="Home Ground"
                 name="home_ground"
-                // value={formData.date_of_birth}
+                value={formData.home_ground}
                 onChange={handleInputChange}
+                placeholder="Enter home ground"
               />
               <SelectField
                 label="Captain"
                 name="captain_id"
-                // value={formData.role}
+                value={formData.captain_id}
                 onChange={handleInputChange}
-                options={ROLE_OPTIONS}
+                placeholder='Select a captain'
+                options={players
+                  .map(player => ({
+                    value: player.id,
+                    label: player.first_name + ' ' + player.last_name
+                  }))
+                }
               />
+
               <SelectField
                 label="Vice Captain"
                 name="vice_captain_id"
-                value={formData.batting_style}
-                // onChange={handleInputChange}
-                options={BATTING_STYLES}
+                value={formData.vice_captain_id}
+                onChange={handleInputChange}
+                placeholder='Select a vice captain'
+                options={players
+                  .map(player => ({
+                    value: player.id,
+                    label: player.first_name + ' ' + player.last_name
+                  }))
+                }
               />
-              
+
               <div className="flex justify-end space-x-3 pt-2">
                 <button
                   type="button"

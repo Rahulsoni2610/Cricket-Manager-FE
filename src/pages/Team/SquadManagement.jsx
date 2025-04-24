@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { fetchAvailablePlayers, saveSquad, fetchTeamPlayers } from '../../services/teamService';
 import { fetchTournaments } from '../../services/tournamentService';
 import { UserIcon, UsersIcon, TrophyIcon, XMarkIcon, CheckIcon } from '@heroicons/react/24/outline';
+import { formatLabel } from '../../utils/format';
 
 const SquadManagement = () => {
   const { id: teamId } = useParams();
@@ -148,7 +149,7 @@ const SquadManagement = () => {
             </div>
 
             {availablePlayers.length > 0 ? (
-              <div className="space-y-3">
+              <div className="space-y-3 overflow-auto max-h-screen">
                 {availablePlayers.map((player) => (
                   <div
                     key={player.id}
@@ -161,8 +162,9 @@ const SquadManagement = () => {
                         <UserIcon className="h-5 w-5 text-indigo-600" />
                       </div>
                       <div>
-                        <h4 className="font-medium text-gray-900">{player.name}</h4>
-                        <p className="text-xs text-gray-500">ID: {player.id}</p>
+                        <h4 className="font-medium text-gray-900">{player.first_name + " " + player.last_name}</h4>
+                        <p className="text-xs text-gray-500">Role: {formatLabel(player.role)}</p>
+                        <p className="text-xs text-gray-500">Player ID: {player.id}</p>
                       </div>
                     </div>
                     <button
@@ -201,7 +203,7 @@ const SquadManagement = () => {
             </div>
 
             {squadPlayers.length > 0 ? (
-              <div className="space-y-3">
+              <div className="space-y-3 overflow-auto max-h-screen">
                 {squadPlayers.map((player) => (
                   <div
                     key={player.id}
@@ -214,8 +216,9 @@ const SquadManagement = () => {
                         <UserIcon className="h-5 w-5 text-indigo-600" />
                       </div>
                       <div>
-                        <h4 className="font-medium text-gray-900">{player.name}</h4>
-                        <p className="text-xs text-gray-500">ID: {player.id}</p>
+                        <h4 className="font-medium text-gray-900">{player.first_name + " " + player.last_name}</h4>
+                        <p className="text-xs text-gray-500">Role: {formatLabel(player.role)}</p>
+                        <p className="text-xs text-gray-500">Player ID: {player.id}</p>
                       </div>
                     </div>
                     <button

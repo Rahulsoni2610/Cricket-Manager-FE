@@ -17,7 +17,7 @@ const PlayersCard = ({ team }) => {
             let roleIcon = "🧍";
             if (player.role?.toLowerCase() === "batsman") roleIcon = "🏏";
             else if (player.role?.toLowerCase() === "bowler") roleIcon = "⚾️";
-            else if (player.role?.toLowerCase() === "all rounder") roleIcon = "🔁";
+            else if (player.role?.toLowerCase() === "all_rounder") roleIcon = "🏏+⚾️";
 
             return (
               <div

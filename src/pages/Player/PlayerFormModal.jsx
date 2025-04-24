@@ -34,6 +34,7 @@ const PlayerFormModal = ({ isOpen, onClose, formData, handleInputChange, handleS
             name="first_name"
             value={formData.first_name}
             onChange={handleInputChange}
+            placeholder="Enter first name"
             required
           />
           <InputField
@@ -41,6 +42,7 @@ const PlayerFormModal = ({ isOpen, onClose, formData, handleInputChange, handleS
             name="last_name"
             value={formData.last_name}
             onChange={handleInputChange}
+            placeholder="Enter last name"
           />
           <InputField
             label="Date of Birth"
@@ -54,6 +56,7 @@ const PlayerFormModal = ({ isOpen, onClose, formData, handleInputChange, handleS
             name="role"
             value={formData.role}
             onChange={handleInputChange}
+            placeholder="Select a role"
             options={ROLE_OPTIONS}
           />
           <SelectField
@@ -61,6 +64,7 @@ const PlayerFormModal = ({ isOpen, onClose, formData, handleInputChange, handleS
             name="batting_style"
             value={formData.batting_style}
             onChange={handleInputChange}
+            placeholder="Select a batting style"
             options={BATTING_STYLES}
           />
           <SelectField
@@ -68,6 +72,7 @@ const PlayerFormModal = ({ isOpen, onClose, formData, handleInputChange, handleS
             name="bowling_style"
             value={formData.bowling_style}
             onChange={handleInputChange}
+            placeholder="Select a bowling style"
             options={BOWLING_STYLES}
           />
 

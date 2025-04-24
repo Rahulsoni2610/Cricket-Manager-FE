@@ -130,6 +130,12 @@ const Players = () => {
     loadPlayers();
   }, []);
 
+
+  const filteredPlayers = players.filter(player =>
+    player.first_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    player.last_name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <div className="container mx-auto px-4 py-8">
       {/* Header */}
@@ -145,12 +151,11 @@ const Players = () => {
               <MagnifyingGlassIcon className="h-5 w-5 text-gray-400" />
             </div>
             <input
-              ref={inputRef}
               type="text"
               className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-              placeholder="Search players..."
+              placeholder="Search teams..."
               value={searchTerm}
-              onChange={handleSearchChange}
+              onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
 
@@ -167,13 +172,7 @@ const Players = () => {
         </div>
       </div>
 
-      {loading ? (
-        <div className="flex justify-center items-center h-64">
-          <ArrowPathIcon className="h-12 w-12 text-indigo-500 animate-spin" />
-        </div>
-      ) : (
-        <PlayerCard players={players} handleDelete={handleDelete} handleEdit={handleEdit} />
-      )}
+      <PlayerCard players={filteredPlayers} handleDelete={handleDelete} handleEdit={handleEdit} />
 
       <PlayerFormModal
         isOpen={isModalOpen}
