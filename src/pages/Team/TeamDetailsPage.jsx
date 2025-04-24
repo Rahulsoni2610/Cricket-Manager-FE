@@ -32,11 +32,28 @@ const TeamDetailsPage = () => {
         <div className="p-6">
           <div className="flex justify-between items-start">
             <div>
-              <h1 className="text-3xl font-bold">{team.name}</h1>
+              <div className="flex items-start justify-between">
+                <div className="flex items-center">
+                  <div className="p-2 rounded-full bg-gray-100">
+                    {team.logo_url ? (
+                      <img
+                        src={team.logo_url}
+                        alt={team.name}
+                        className="h-6 w-6 rounded-full"
+                      />
+                    ) : <UserGroupIcon className="h-6 w-6 text-gray-600" />}
+                  </div>
+                </div>
+                <h1 className="text-3xl font-bold ml-2">{team.name}</h1>
+              </div>
               <div className="mt-4 space-y-3">
                 <div className="flex items-center">
                   <CalendarIcon className="h-5 w-5 text-gray-500 mr-2" />
-                  <span>Founded: {team.founded_year}</span>
+                  <span>Founded: {new Date(team.created_at).toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                  })}</span>
                 </div>
                 <div className="flex items-center">
                   <MapPinIcon className="h-5 w-5 text-gray-500 mr-2" />
@@ -44,11 +61,11 @@ const TeamDetailsPage = () => {
                 </div>
                 <div className="flex items-center">
                   <UserIcon className="h-5 w-5 text-gray-500 mr-2" />
-                  <span>Captain: {team.captain.first_name}</span>
+                  <span>Captain: {team.captain.first_name + " " + team.captain.last_name}</span>
                 </div>
                 <div className="flex items-center">
-                  <UserGroupIcon className="h-5 w-5 text-gray-500 mr-2" />
-                  <span>Coach: {team.coach}</span>
+                  <UserIcon className="h-5 w-5 text-gray-500 mr-2" />
+                  <span>Vice Captain: {team.vice_captain.first_name + " " + team.vice_captain.last_name}</span>
                 </div>
               </div>
             </div>
