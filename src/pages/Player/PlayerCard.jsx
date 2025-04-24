@@ -4,9 +4,10 @@ import {
   UserIcon,
   CalendarIcon,
   PencilIcon,
-  TrashIcon
+  TrashIcon,
+  PlusIcon
 } from '@heroicons/react/24/outline';
-function PlayerCard({ players, handleDelete, handleEdit }) {
+function PlayerCard({ players, handleDelete, handleEdit, searchTerm }) {
   return (
     <>
       {
