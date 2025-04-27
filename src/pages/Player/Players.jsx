@@ -1,11 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { debounce } from 'lodash';
 import PlayerCard from './PlayerCard';
 import PlayerFormModal from './PlayerFormModal';
 import {
   PlusIcon,
-  MagnifyingGlassIcon,
-  ArrowPathIcon
+  MagnifyingGlassIcon
 } from '@heroicons/react/24/outline';
 import {
   fetchPlayers,
@@ -25,6 +23,7 @@ const Players = () => {
   const [formData, setFormData] = useState({
     first_name: '',
     last_name: '',
+    picture: '',
     date_of_birth: '',
     batting_style: '',
     bowling_style: '',
@@ -46,32 +45,28 @@ const Players = () => {
     }
   };
 
-  // Debounced search
-  const debouncedSearch = useRef(
-    debounce((value) => {
-      loadPlayers(value);
-    }, 500)
-  ).current;
-
-  const handleSearchChange = (e) => {
-    setSearchTerm(e.target.value);
-    debouncedSearch(e.target.value);
-  };
-
-  // Handle form input changes
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    const { name, value, type, files } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: type === "file" ? files[0] : value
+    }));
   };
 
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const formNewData = new FormData();
+    for (const key in formData) {
+      formNewData.append(`player[${key}]`, formData[key]);
+    }
+
     try {
       if (currentPlayer) {
-        await updatePlayer(currentPlayer.id, formData);
+        await updatePlayer(currentPlayer.id, formNewData);
       } else {
-        await createPlayer(formData);
+        await createPlayer(formNewData);
       }
       setIsModalOpen(false);
       loadPlayers(); // Refresh the list

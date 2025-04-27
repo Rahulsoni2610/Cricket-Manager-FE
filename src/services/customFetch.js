@@ -8,7 +8,7 @@ export const customFetch = async (endpoint, options = {}) => {
     ...options,
     headers: {
       ...options.headers,
-      'Content-Type': 'application/json',
+      'Accept': 'application/json',
       Authorization: token ? `Bearer ${token}` : '',
     },
   });
