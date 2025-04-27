@@ -13,6 +13,8 @@ const SquadManagement = () => {
   const [squadPlayers, setSquadPlayers] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [draggedPlayer, setDraggedPlayer] = useState(null);
+  const [availableSearchTerm, setavailableSearchTerm] = useState('');
+  const [currentSearchTerm, setcurrentSearchTerm] = useState('');
 
   useEffect(() => {
     fetchTournaments().then(data => {
@@ -89,6 +91,17 @@ const SquadManagement = () => {
     }
   };
 
+  const filteredAvailablePlayers = availablePlayers.filter(
+    (player) =>
+      squadPlayers.every((p) => p.id !== player.id) &&
+      player.first_name?.toLowerCase().includes(availableSearchTerm.toLowerCase())
+  );
+
+  const filteredSquadPlayers = squadPlayers.filter(
+    (player) =>
+      player.first_name?.toLowerCase().includes(currentSearchTerm.toLowerCase())
+  );
+
   return (
     <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
@@ -143,14 +156,21 @@ const SquadManagement = () => {
               <h2 className="text-lg font-medium text-gray-900 ml-2">
                 Available Players
                 <span className="ml-2 bg-gray-100 text-gray-800 text-xs font-medium px-2.5 py-0.5 rounded-full">
-                  {availablePlayers.length}
+                  {filteredAvailablePlayers.length}
                 </span>
               </h2>
             </div>
+            <input
+              type="text"
+              placeholder="Search players..."
+              value={availableSearchTerm}
+              onChange={(e) => setavailableSearchTerm(e.target.value)}
+              className="mb-4 block w-full pl-3 pr-10 py-2 border border-gray-300 rounded-md bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            />
 
-            {availablePlayers.length > 0 ? (
+            {filteredAvailablePlayers.length > 0 ? (
               <div className="space-y-3 overflow-auto max-h-screen">
-                {availablePlayers.map((player) => (
+                {filteredAvailablePlayers.map((player) => (
                   <div
                     key={player.id}
                     draggable
@@ -197,14 +217,20 @@ const SquadManagement = () => {
               <h2 className="text-lg font-medium text-gray-900 ml-2">
                 Current Squad
                 <span className="ml-2 bg-gray-100 text-gray-800 text-xs font-medium px-2.5 py-0.5 rounded-full">
-                  {squadPlayers.length}
+                  {filteredSquadPlayers.length}
                 </span>
               </h2>
             </div>
-
-            {squadPlayers.length > 0 ? (
+            <input
+              type="text"
+              placeholder="Search players..."
+              value={currentSearchTerm}
+              onChange={(e) => setcurrentSearchTerm(e.target.value)}
+              className="mb-4 block w-full pl-3 pr-10 py-2 border border-gray-300 rounded-md bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            />
+            {filteredSquadPlayers.length > 0 ? (
               <div className="space-y-3 overflow-auto max-h-screen">
-                {squadPlayers.map((player) => (
+                {filteredSquadPlayers.map((player) => (
                   <div
                     key={player.id}
                     draggable

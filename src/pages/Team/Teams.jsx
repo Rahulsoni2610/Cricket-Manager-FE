@@ -36,7 +36,6 @@ const Teams = () => {
     resetForm();
   };
 
-
   useEffect(() => {
     const loadTeams = async () => {
       try {

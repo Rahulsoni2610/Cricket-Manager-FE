@@ -61,11 +61,11 @@ const TeamDetailsPage = () => {
                 </div>
                 <div className="flex items-center">
                   <UserIcon className="h-5 w-5 text-gray-500 mr-2" />
-                  <span>Captain: {team.captain.first_name + " " + team.captain.last_name}</span>
+                  <span>Captain: {team.captain ? `${team.captain.first_name} ${team.captain.last_name}` : 'TBD'}</span>
                 </div>
                 <div className="flex items-center">
                   <UserIcon className="h-5 w-5 text-gray-500 mr-2" />
-                  <span>Vice Captain: {team.vice_captain.first_name + " " + team.vice_captain.last_name}</span>
+                  <span>Vice Captain: {team.vice_captain ? `${team.vice_captain.first_name} ${team.vice_captain.last_name}` : 'TBD'}</span>
                 </div>
               </div>
             </div>

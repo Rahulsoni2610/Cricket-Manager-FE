@@ -86,11 +86,11 @@ function TeamCard({ searchTerm, filteredTeams, setCurrentTeam, setIsModalOpen, s
                     </div>
                     <div className="flex items-center">
                       <UserIcon className="h-4 w-4 text-gray-400 mr-2" />
-                      <span>Captain: {team.captain.first_name + ' ' + team.captain.last_name || 'TBD'}</span>
+                      <span>Captain: {team.captain ? `${team.captain.first_name} ${team.captain.last_name}` : 'TBD'}</span>
                     </div>
                     <div className="flex items-center mt-2">
                       <UserIcon className="h-4 w-4 text-gray-400 mr-2" />
-                      <span>V Captain: {team.vice_captain.first_name + ' ' + team.vice_captain.last_name || 0}</span>
+                      <span>V Captain: {team.vice_captain ? `${team.vice_captain.first_name} ${team.vice_captain.last_name}` : 'TBD'}</span>
                     </div>
                   </div>
 
