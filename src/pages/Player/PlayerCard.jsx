@@ -36,7 +36,15 @@ function PlayerCard({ players, handleDelete, handleEdit, searchTerm }) {
                     <div className="flex items-start justify-between">
                       <div className="flex items-center">
                         <div className="p-2 rounded-full bg-gray-100">
-                          <UserIcon className="h-6 w-6 text-gray-600" />
+                          {player.picture_url ? (
+                            <img
+                              src={player.picture_url}
+                              alt={player.first_name}
+                              className="w-8 h-8 rounded-full"
+                            />
+                          ) : (
+                            <UserIcon className="h-6 w-6 text-gray-600" />
+                          )}
                         </div>
                         <h2 className="ml-3 text-lg font-semibold text-gray-800">
                           {player.first_name} {player.last_name}

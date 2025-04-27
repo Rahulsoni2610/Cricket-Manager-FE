@@ -114,7 +114,15 @@ const PlayerDetailsPage = () => {
             <div className="flex items-start space-x-6">
               {/* Player avatar - replace with actual image if available */}
               <div className="flex-shrink-0 h-24 w-24 rounded-full bg-gray-100 flex items-center justify-center">
-                <UserIcon className="h-12 w-12 text-gray-400" />
+                {player.picture_url ? (
+                  <img
+                    src={player.picture_url}
+                    alt={player.first_name}
+                    className="rounded-full"
+                  />
+                ) : (
+                  <UserIcon className="h-6 w-6 text-gray-600" />
+                )}
               </div>
 
               <div>
