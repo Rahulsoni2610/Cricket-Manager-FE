@@ -8,6 +8,9 @@ export const createTournament = async (tournament) => {
   return customFetch('/tournaments', {
     method: 'POST',
     body: JSON.stringify({ tournament }),
+    headers: {
+      'Content-Type': 'application/json',
+    },
   });
 };
 
@@ -15,6 +18,9 @@ export const updateTournament = async (id, tournament) => {
   return customFetch(`/tournaments/${id}`, {
     method: 'PATCH',
     body: JSON.stringify({ tournament }),
+    headers: {
+      'Content-Type': 'application/json',
+    },
   });
 };
 

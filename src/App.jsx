@@ -13,7 +13,7 @@ import TournamentPage from './pages/Tournament/TournamentPage';
 import Matches from './pages/Match/Matches';
 import ProtectedRoute from './components/ProtectedRoute';
 import AnalyticsPage from './pages/Analytics/Analytics';
-
+import UserSettings from './pages/Settings/UserSettings';
 function App() {
   return (
     <AuthProvider>
@@ -36,6 +36,7 @@ function App() {
               <Route path="/tournaments" element={<TournamentPage />} />
               <Route path="/matches" element={<Matches />} />
               <Route path="/analytics" element={<AnalyticsPage />} />
+              <Route path="/settings" element={<UserSettings />} />
             </Route>
           </Route>
 
