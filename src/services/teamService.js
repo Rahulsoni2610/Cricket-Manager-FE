@@ -19,6 +19,9 @@ export const updateTeam = async (id, team) => {
   return customFetch(`/teams/${id}`, {
     method: 'PATCH',
     body: JSON.stringify({ team }),
+    headers: {
+      'Content-Type': 'application/json',
+    }
   });
 };
 
@@ -85,5 +88,8 @@ export const saveSquad = async (teamId, tournamentId, playerIds) => {
       tournament_id: tournamentId,
       player_ids: playerIds,
     }),
+    headers: {
+      'Content-Type': 'application/json',
+    },
   });
 };
