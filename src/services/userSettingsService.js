@@ -4,8 +4,8 @@ export const fetchUsers = async () => {
   return customFetch('/users');
 };
 
-export const fetchUser = async (id) => {
-  return customFetch(`/users/${id}`);
+export const fetchUser = async () => {
+  return customFetch(`/users`);
 }
 
 export const updateUser = async (id, user) => {

@@ -12,7 +12,9 @@ import {
   CalendarDaysIcon,
   ArrowLeftOnRectangleIcon,
   ChartBarIcon,
-  Cog6ToothIcon
+  Cog6ToothIcon,
+  ChevronDownIcon,
+  ChevronUpIcon
 } from '@heroicons/react/24/outline';
 
 export default function DashboardLayout() {
@@ -21,6 +23,7 @@ export default function DashboardLayout() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
   const [activeItem, setActiveItem] = useState(formatLabel(location.pathname.split('/')[1] || 'Dashboard'));
+  const [tournamentMenuOpen, setTournamentMenuOpen] = useState(false);
 
   const handleLogout = async () => {
     await logout();
@@ -32,10 +35,19 @@ export default function DashboardLayout() {
     { name: 'Players', href: '/players', icon: <UserIcon className="h-5 w-5" /> },
     { name: 'Teams', href: '/teams', icon: <UserGroupIcon className="h-5 w-5" /> },
     { name: 'Matches', href: '/matches', icon: <CalendarDaysIcon className="h-5 w-5" /> },
-    { name: 'Tournaments', href: '/tournaments', icon: <TrophyIcon className="h-5 w-5" /> },
+    {
+      name: 'Tournaments',
+      icon: <TrophyIcon className="h-5 w-5" />,
+      subItems: [
+        { name: 'All Tournaments', href: '/tournaments' },
+        { name: 'Tournament Registration', href: '/tournaments' },
+      ]
+    },
     { name: 'Analytics', href: '/analytics', icon: <ChartBarIcon className="h-5 w-5" /> },
     { name: 'Settings', href: '/settings', icon: <Cog6ToothIcon className="h-5 w-5" /> },
   ];
+
+  const isTournamentActive = location.pathname.startsWith('/tournaments');
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -53,24 +65,67 @@ export default function DashboardLayout() {
         <div className="flex-1 overflow-y-auto py-4 px-3">
           <nav className="space-y-1">
             {navItems.map((item) => (
-              <Link
-                key={item.name}
-                to={item.href}
-                onClick={() => setActiveItem(item.name)}
-                className={`flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-all duration-200 ${activeItem === item.name
-                  ? 'bg-indigo-50 text-indigo-700'
-                  : 'text-gray-600 hover:bg-gray-100'
-                  }`}
-              >
-                <span className={`mr-3 ${activeItem === item.name ? 'text-indigo-600' : 'text-gray-500'
-                  }`}>
-                  {item.icon}
-                </span>
-                {item.name}
-                {activeItem === item.name && (
-                  <span className="ml-auto h-2 w-2 rounded-full bg-indigo-600"></span>
-                )}
-              </Link>
+              item.subItems ? (
+                <div key={item.name}>
+                  <button
+                    onClick={() => setTournamentMenuOpen(!tournamentMenuOpen)}
+                    className={`flex items-center justify-between w-full px-4 py-3 text-sm font-medium rounded-lg transition-all duration-200 ${isTournamentActive
+                      ? 'bg-indigo-50 text-indigo-700'
+                      : 'text-gray-600 hover:bg-gray-100'
+                      }`}
+                  >
+                    <div className="flex items-center">
+                      <span className={`mr-3 ${isTournamentActive ? 'text-indigo-600' : 'text-gray-500'}`}>
+                        {item.icon}
+                      </span>
+                      {item.name}
+                    </div>
+                    {tournamentMenuOpen ? (
+                      <ChevronUpIcon className="h-4 w-4" />
+                    ) : (
+                      <ChevronDownIcon className="h-4 w-4" />
+                    )}
+                  </button>
+                  {tournamentMenuOpen && (
+                    <div className="ml-8 mt-1 space-y-1">
+                      {item.subItems.map((subItem) => (
+                        <Link
+                          key={subItem.name}
+                          to={subItem.href}
+                          onClick={() => setActiveItem(subItem.name)}
+                          className={`flex items-center px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${activeItem === subItem.name
+                            ? 'bg-indigo-50 text-indigo-700'
+                            : 'text-gray-600 hover:bg-gray-100'
+                            }`}
+                        >
+                          {subItem.name}
+                          {activeItem === subItem.name && (
+                            <span className="ml-auto h-2 w-2 rounded-full bg-indigo-600"></span>
+                          )}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <Link
+                  key={item.name}
+                  to={item.href}
+                  onClick={() => setActiveItem(item.name)}
+                  className={`flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-all duration-200 ${activeItem === item.name
+                    ? 'bg-indigo-50 text-indigo-700'
+                    : 'text-gray-600 hover:bg-gray-100'
+                    }`}
+                >
+                  <span className={`mr-3 ${activeItem === item.name ? 'text-indigo-600' : 'text-gray-500'}`}>
+                    {item.icon}
+                  </span>
+                  {item.name}
+                  {activeItem === item.name && (
+                    <span className="ml-auto h-2 w-2 rounded-full bg-indigo-600"></span>
+                  )}
+                </Link>
+              )
             ))}
           </nav>
         </div>
@@ -119,27 +174,73 @@ export default function DashboardLayout() {
             <div className="flex-1 overflow-y-auto py-4 px-3">
               <nav className="space-y-1">
                 {navItems.map((item) => (
-                  <Link
-                    key={item.name}
-                    to={item.href}
-                    onClick={() => {
-                      setActiveItem(item.name);
-                      setMobileMenuOpen(false);
-                    }}
-                    className={`flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-all duration-200 ${activeItem === item.name
-                      ? 'bg-indigo-50 text-indigo-700'
-                      : 'text-gray-600 hover:bg-gray-100'
-                      }`}
-                  >
-                    <span className={`mr-3 ${activeItem === item.name ? 'text-indigo-600' : 'text-gray-500'
-                      }`}>
-                      {item.icon}
-                    </span>
-                    {item.name}
-                    {activeItem === item.name && (
-                      <span className="ml-auto h-2 w-2 rounded-full bg-indigo-600"></span>
-                    )}
-                  </Link>
+                  item.subItems ? (
+                    <div key={item.name}>
+                      <button
+                        onClick={() => setTournamentMenuOpen(!tournamentMenuOpen)}
+                        className={`flex items-center justify-between w-full px-4 py-3 text-sm font-medium rounded-lg transition-all duration-200 ${isTournamentActive
+                          ? 'bg-indigo-50 text-indigo-700'
+                          : 'text-gray-600 hover:bg-gray-100'
+                          }`}
+                      >
+                        <div className="flex items-center">
+                          <span className={`mr-3 ${isTournamentActive ? 'text-indigo-600' : 'text-gray-500'}`}>
+                            {item.icon}
+                          </span>
+                          {item.name}
+                        </div>
+                        {tournamentMenuOpen ? (
+                          <ChevronUpIcon className="h-4 w-4" />
+                        ) : (
+                          <ChevronDownIcon className="h-4 w-4" />
+                        )}
+                      </button>
+                      {tournamentMenuOpen && (
+                        <div className="ml-8 mt-1 space-y-1">
+                          {item.subItems.map((subItem) => (
+                            <Link
+                              key={subItem.name}
+                              to={subItem.href}
+                              onClick={() => {
+                                setActiveItem(subItem.name);
+                                setMobileMenuOpen(false);
+                              }}
+                              className={`flex items-center px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${activeItem === subItem.name
+                                ? 'bg-indigo-50 text-indigo-700'
+                                : 'text-gray-600 hover:bg-gray-100'
+                                }`}
+                            >
+                              {subItem.name}
+                              {activeItem === subItem.name && (
+                                <span className="ml-auto h-2 w-2 rounded-full bg-indigo-600"></span>
+                              )}
+                            </Link>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  ) : (
+                    <Link
+                      key={item.name}
+                      to={item.href}
+                      onClick={() => {
+                        setActiveItem(item.name);
+                        setMobileMenuOpen(false);
+                      }}
+                      className={`flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-all duration-200 ${activeItem === item.name
+                        ? 'bg-indigo-50 text-indigo-700'
+                        : 'text-gray-600 hover:bg-gray-100'
+                        }`}
+                    >
+                      <span className={`mr-3 ${activeItem === item.name ? 'text-indigo-600' : 'text-gray-500'}`}>
+                        {item.icon}
+                      </span>
+                      {item.name}
+                      {activeItem === item.name && (
+                        <span className="ml-auto h-2 w-2 rounded-full bg-indigo-600"></span>
+                      )}
+                    </Link>
+                  )
                 ))}
               </nav>
             </div>

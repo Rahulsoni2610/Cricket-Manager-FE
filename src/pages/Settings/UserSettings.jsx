@@ -10,7 +10,7 @@ import {
   CheckCircleIcon,
   XCircleIcon
 } from '@heroicons/react/24/outline';
-import { fetchUser, updateUser, updatePassword } from '../../services/userSettingsService'; // Import your user settings service, updateUser, updatePassword }
+import { fetchUser, updateUser } from '../../services/userSettingsService';
 
 const UserSettings = () => {
   const [user, setUser] = useState(null);
@@ -80,19 +80,20 @@ const UserSettings = () => {
 
   const handleProfileSubmit = async (e) => {
     e.preventDefault();
-    setSuccessMessage('');
-    setErrorMessage('');
+    // setSuccessMessage('');
+    // setErrorMessage('');
+    const formNewData = new FormData();
+    for (const key in profileForm) {
+      debugger
+      formNewData.append(`player[${key}]`, profileForm[key]);
+    }
+    debugger
 
     try {
-      const formData = new FormData();
-      Object.entries(profileForm).forEach(([key, value]) => {
-        formData.append(`user[${key}]`, value);
-      });
-      if (profileImage) {
-        formData.append('user[profile_image]', profileImage);
-      }
-
-      const updatedUser = await updateUser(formData);
+      // if (profileImage) {
+      //   formNewData.append('user[profile_image]', profileImage);
+      // }
+      const updatedUser = await updateUser(formNewData);
       setUser(updatedUser);
       setSuccessMessage('Profile updated successfully!');
       setTimeout(() => setSuccessMessage(''), 5000);
@@ -134,7 +135,7 @@ const UserSettings = () => {
     <div className="container mx-auto px-4 py-8">
       <div className="max-w-4xl mx-auto">
         <h1 className="text-2xl font-bold text-gray-800 mb-6">Account Settings</h1>
-        
+
         {/* Success/Error Messages */}
         {successMessage && (
           <div className="mb-6 p-4 rounded-lg bg-green-50 border border-green-200 flex items-start">
@@ -177,7 +178,7 @@ const UserSettings = () => {
         {activeTab === 'profile' && (
           <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
             <h2 className="text-lg font-semibold text-gray-800 mb-6">Profile Information</h2>
-            
+
             <form onSubmit={handleProfileSubmit}>
               <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
                 {/* Profile Picture */}
@@ -358,7 +359,7 @@ const UserSettings = () => {
         {activeTab === 'password' && (
           <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
             <h2 className="text-lg font-semibold text-gray-800 mb-6">Update Password</h2>
-            
+
             <form onSubmit={handlePasswordSubmit}>
               <div className="space-y-6">
                 {/* Current Password */}
@@ -447,7 +448,7 @@ const UserSettings = () => {
         {activeTab === 'notifications' && (
           <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
             <h2 className="text-lg font-semibold text-gray-800 mb-6">Notification Preferences</h2>
-            
+
             <form>
               <div className="space-y-6">
                 <div className="flex items-start">
