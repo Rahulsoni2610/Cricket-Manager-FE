@@ -1,4 +1,4 @@
-const API_BASE = 'http://localhost:3000/api/v1';
+const API_BASE = 'https://largely-powder-semester-scholarship.trycloudflare.com/api/v1';
 
 export const customFetch = async (endpoint, options = {}) => {
   const token = localStorage.getItem('authToken');
@@ -8,6 +8,7 @@ export const customFetch = async (endpoint, options = {}) => {
     headers: {
       ...options.headers,
       'Accept': 'application/json',
+      'Content-Type': 'application/json',
       Authorization: token ? `Bearer ${token}` : '',
     },
   });
@@ -19,8 +20,8 @@ export const customFetch = async (endpoint, options = {}) => {
   }
 
   if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.message || 'Something went wrong');
+    const errorBody = await response.json();
+    throw new Error(errorBody.message || errorBody.error || JSON.stringify(errorBody) || 'Something went wrong');
   }
 
   return response.json();

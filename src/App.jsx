@@ -11,6 +11,9 @@ import Players from './pages/Player/Players';
 import PlayerDetailsPage from './pages/Player/PlayerDetailsPage';
 import TournamentPage from './pages/Tournament/TournamentPage';
 import Matches from './pages/Match/Matches';
+import MatchSetup from './pages/Match/MatchSetup';
+import LiveMatch from './pages/Match/LiveMatch';
+import Scorecard from './pages/Match/Scorecard';
 import ProtectedRoute from './components/ProtectedRoute';
 import AnalyticsPage from './pages/Analytics/Analytics';
 import UserSettings from './pages/Settings/UserSettings';
@@ -35,6 +38,9 @@ function App() {
               <Route path="/players/:id" element={<PlayerDetailsPage />} />
               <Route path="/tournaments" element={<TournamentPage />} />
               <Route path="/matches" element={<Matches />} />
+              <Route path="/match/create" element={<MatchSetup />} />
+              <Route path="/match/live/:id" element={<LiveMatch />} />
+              <Route path="/match/scorecard/:id" element={<Scorecard />} />
               <Route path="/analytics" element={<AnalyticsPage />} />
               <Route path="/settings" element={<UserSettings />} />
             </Route>

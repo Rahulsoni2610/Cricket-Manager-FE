@@ -1,7 +1,7 @@
-const API_URL = 'http://127.0.0.1:3000/api/v1'; // Using 127.0.0.1 instead of localhost
+const API_URL = 'https://largely-powder-semester-scholarship.trycloudflare.com/api/v1';
 
 export const login = async (email, password) => {
-  console.log('Attempting to login to:', API_URL); // Debug log
+  console.log('Attempting to login to:', API_URL);
 
   try {
     const response = await fetch(`${API_URL}/auth/login`, {
