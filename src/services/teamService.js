@@ -32,9 +32,8 @@ export const deleteTeam = async (id) => {
 };
 
 export const fetchTeamPlayers = async (teamId, tournamentId) => {
-  return customFetch(
-    `/teams/${teamId}/players?tournament_id=${tournamentId}`
-  );
+  const query = tournamentId ? `?tournament_id=${tournamentId}` : '';
+  return customFetch(`/teams/${teamId}/players${query}`);
 };
 
 export const fetchAvailablePlayers = async (teamId, tournamentId) => {
