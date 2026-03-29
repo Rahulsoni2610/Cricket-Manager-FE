@@ -1,4 +1,4 @@
-const API_URL = 'https://largely-powder-semester-scholarship.trycloudflare.com/api/v1';
+const API_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api/v1';
 
 export const login = async (email, password) => {
   console.log('Attempting to login to:', API_URL);
