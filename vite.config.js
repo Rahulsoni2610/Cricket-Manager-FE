@@ -7,9 +7,13 @@ import tailwindcss from '@tailwindcss/vite'
 export default defineConfig({
   plugins: [react(), tailwindcss()],
   server: {
-    allowedHosts: [
-      'supervisor-skirts-sleep-florence.trycloudflare.com'
-    ]
+    allowedHosts: true,
+    proxy: {
+      '/api': {
+        target: 'http://backend:3000',
+        changeOrigin: true,
+      }
+    }
   },
 })
 
